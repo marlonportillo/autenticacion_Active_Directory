@@ -1,0 +1,90 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+   
+}
+
+<div class="container">
+
+
+    <div class="row justify-content-center">
+        <div class="col-sm-6 col-sm-offset-3 form-box">
+            <div class="form-top">
+                <div class="form-top-left">
+                    <h3 class="font-weight-bold">Inicio de Sesión</h3>
+                    <p>Ingrese Usuario y Contraseña para iniciar sesión:</p>
+                </div>
+                <div class="form-top-right">
+                    <i class="fa fa-lock"></i>
+                </div>
+            </div>
+
+            <div class="form-bottom">
+                <form id="dataUsuario" role="form" asp-action="Logion" asp-controller="Home" method="post">
+                    <div class="input-group form-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text bg-white text-dark"><i class="fas fa-user"></i></span>
+                        </div>
+                        <input id="Usuario" name="Usuario" type="text" class="form-control" placeholder="Usuario" autocomplete="off">
+                    </div>
+
+                    <div class="input-group form-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text bg-white text-dark"><i class="fas fa-key"></i></span>
+                        </div>
+                        <input id="contraseña" name="contraseña" type="password" class="form-control" placeholder="Contraseña">
+                    </div>
+
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-check">
+                                <input type="checkbox" id="showPsw" class="form-check-input" onclick="togglePassword()">
+                                <label class="form-check-label text-white" onclick="togglePassword()">Mostrar contraseña</label>
+                            </div>
+                        </div>
+
+
+                    </div>
+
+
+
+                   
+                    <button type="submit" class="btn-primary">Login</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+ 
+    document.forms['dataUsuario'].addEventListener('submit', (event) => {
+        event.preventDefault();
+        // TODO do something here to show user that form is being submitted
+        fetch(event.target.action, {
+            method: 'POST',
+            body: new URLSearchParams(new FormData(event.target)) // event.target is the form
+        }).then((resp) => {
+            var result = resp.json()
+            var returs;
+            result.then((Response) => {
+                console.log(Response)
+                if (Response.codigo == 1) {
+                    alert("Bienvenido")
+                    window.location.href ="/Panel/Index"
+                } else {
+                    alert(Response.resultado)
+                }
+            }
+
+            )
+          
+            
+
+            // or resp.text() or whatever the server sends
+        }).then((body) => {
+            // TODO handle body
+           
+        }).catch((error) => {
+            // TODO handle error
+        });
+    });
+</script>
